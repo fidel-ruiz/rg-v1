@@ -1,63 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import Gallery from './components/Gallery';
-
+import React from 'react';
+import logo from './logo.svg';
 import './App.css';
-import { deserialize, save, remove, UUID } from './helpers.js';
 
 function App() {
-  const [images, setImages] = useState([]);
-
-  useEffect(() => {
-    setImages(deserialize());
-  }, []);
-
-  const upload = files => {
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-
-      reader.addEventListener(
-        'load',
-        function() {
-          let uuid = UUID();
-          save(uuid, reader.result);
-          setImages(deserialize());
-        },
-        false,
-      );
-    }
-  };
-
-  const openFileSelect = () => {
-    const fileElem = document.getElementById('file-upload');
-    fileElem.click();
-  };
-
-  const handleRemove = uuid => {
-    remove(uuid);
-    setImages(deserialize());
-  };
-
   return (
-    <div className="container">
+    <div className="App">
       <header className="App-header">
-        <div className="upload-btn-wrapper">
-          <button href="#" id="upload" className="btn" onClick={openFileSelect}>
-            Upload Images
-          </button>
-          <input
-            type="file"
-            name="file-upload"
-            id="file-upload"
-            multiple
-            accept="image/*"
-            style={{ display: 'none' }}
-            onChange={e => upload(e.target.files)}
-          />
-        </div>
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
       </header>
-      <Gallery images={images} handleRemove={handleRemove} />
     </div>
   );
 }
